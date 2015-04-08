@@ -1,5 +1,8 @@
 package register;
 
+
+
+
 public class User {
 private String uname,upass,uemail;
 
