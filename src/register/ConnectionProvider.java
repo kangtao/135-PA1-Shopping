@@ -1,6 +1,5 @@
 package register;
 import java.sql.*;
-
 import static register.Provider.*;
 
 public class ConnectionProvider {

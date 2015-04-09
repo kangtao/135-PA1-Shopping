@@ -15,6 +15,7 @@ public class RegisterDao {
 				ps.setString(4,u.getUstate());
 			
 				status=ps.executeUpdate();
+				
 				}
 		catch(Exception e)
 		{

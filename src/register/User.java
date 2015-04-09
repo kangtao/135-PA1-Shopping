@@ -6,7 +6,7 @@ package register;
 public class User {
 private String uname,urole,ustate;
 private int uage;
-
+private boolean valid;
 public String getUname() {
 	return uname;
 }
@@ -39,4 +39,11 @@ public void setUstate(String state) {
 	this.ustate = state;
 }
 
+public boolean isValid() {
+    return valid;
+}
+
+ public void setValid(boolean newValid) {
+    valid = newValid;
+}	
 }

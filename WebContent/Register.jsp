@@ -9,18 +9,18 @@
 <body>
 <h3>Please register</h3>
 <form action="ProcessRegister.jsp">
-Name <input type="text" name="uname" value="" onclick="this.value=''"/><br/>
+Name&nbsp&nbsp&nbsp<input type="text" name="uname" value="" onclick="this.value=''"/><br/>
 
-Role&nbsp&nbsp&nbsp<SELECT NAME="urole">
+Role&nbsp&nbsp&nbsp&nbsp&nbsp<SELECT NAME="urole">
 <OPTION value="Owner">Owner</OPTION>
 <OPTION value="Customer">Customer</OPTION>
 </SELECT><br/>
 <%--<input type="text" name="urole"  value="Role" onclick="this.value=''"/><br/> --%>
 
-Age&nbsp&nbsp&nbsp&nbsp<input type="text" name="uage"	value="Age"	onclick="this.value=''" /><br/>
+Age&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" name="uage"	value=""	onclick="this.value=''" /><br/>
 <%--<input type="text" name="ustate"  value="State" onclick="this.value=''"/><br/>--%>
 
-State&nbsp&nbsp
+State&nbsp&nbsp&nbsp&nbsp
 <SELECT NAME="ustate">
 <OPTION value="Alabama">Alabama</OPTION>
 <OPTION value="Alaska">Alaska</OPTION>

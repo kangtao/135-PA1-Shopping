@@ -6,6 +6,7 @@
 <%
 int status=RegisterDao.register(obj);
 if(status>0)
-out.print("You are successfully registered");
-
+	out.print("You have successfully signed up");
+else
+	out.print("Your signup failed");
 %>
