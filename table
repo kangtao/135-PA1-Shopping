@@ -14,3 +14,5 @@ CREATE TABLE customers
 	userid	INTEGER REFERENCES users(ID) NOT NULL,
 
 )
+
+

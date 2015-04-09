@@ -1,7 +1,8 @@
 package register;
 
 public class User {
-private String uname,upass,uemail;
+private String uname,urole,ustate;
+private int uage;
 
 public String getUname() {
 	return uname;
@@ -11,20 +12,28 @@ public void setUname(String uname) {
 	this.uname = uname;
 }
 
-/*public String getUpass() {
-	return upass;
+public String getUrole() {
+	return urole;
 }
 
-public void setUpass(String upass) {
-	this.upass = upass;
+public void setUrole(String urole) {
+	this.urole = urole;
 }
 
-public String getUemail() {
-	return uemail;
+public int getUage() {
+	return uage;
 }
 
-public void setUemail(String uemail) {
-	this.uemail = uemail;
+public void setUage(int age) {
+	this.uage = age;
 }
-*/
+
+public String getUstate() {
+	return ustate;
+}
+
+public void setUstate(String state) {
+	this.ustate = state;
+}
+
 }
