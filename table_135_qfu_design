@@ -1,0 +1,53 @@
+CREATE TABLE users
+(
+	ID	SERIAL PRIMARY KEY,
+	name	TEXT	NOT NULL UNIQUE
+	role 	TEXT 	NOT NULl
+	age 	INTEGER	NOT NULL
+)
+
+CREATE TABLE owners
+(
+	userid	INTEGER REFERENCES users(ID) NOT NULL,
+	/*id_to_modify INTEGER REFERENCES product(id) NOT NULL*/
+)
+
+CREATE TABLE customers
+(
+	userid	INTEGER REFERENCES users(ID) NOT NULL,
+)
+
+CREATE TABLE categories 
+(
+	ID	INTEGER REFERENCES users(ID) NOT NULL,	
+	name	text	NOT NULL UNIQUE,
+	description text	
+)
+
+
+/* Relation that creates many to many relation
+   which means one owner can modify many catagories or vice versa*/
+CREATE TABLE action
+(
+	from_id INTEGER REFERENCES owner(userid) NOT NULL,
+	t0_id INTEGER REFERENCES categories(ID) NOT NULL
+)
+
+/* Relation that creates many to many relation
+   which means one owner can have many products or vice versa*/
+CREATE TABLE modify
+(
+	from_id INTEGER REFERENCES owner(userid) NOT NULL,
+	t0_id INTEGER REFERENCES product(userid) NOT NULL
+)
+
+CREATE TABLE product 
+(
+	userid INTEGER NOT NULL
+	name	text	NOT NULL UNIQUE,
+	category text	REFERENCES categories(ID) NOT NULL,
+	SKU UNIQUE
+	price
+)
+
+

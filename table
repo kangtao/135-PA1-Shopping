@@ -1,6 +1,6 @@
 CREATE TABLE users
 (
-	ID		SERIAL PRIMARY KEY,
+	ID	SERIAL PRIMARY KEY,
 	name	TEXT	NOT NULL UNIQUE
 )
 
@@ -13,6 +13,22 @@ CREATE TABLE customers
 (
 	userid	INTEGER REFERENCES users(ID) NOT NULL,
 
+)
+
+CREATE TABLE categories 
+(
+	ownerID	INTEGER REFERENCES users(ID) NOT NULL,	
+	name	text	NOT NULL UNIQUE,
+	description text	
+)
+
+CREATE TABLE product 
+(
+	ownerID	INTEGER REFERENCES users(ID) NOT NULL,	
+	name	text	NOT NULL UNIQUE,
+	category text	REFERENCES users(ID) NOT NULL,
+	SKU UNIQUE
+	price
 )
 
 
