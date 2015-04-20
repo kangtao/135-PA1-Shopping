@@ -14,29 +14,32 @@ import register.*;
 /**
  * Servlet implementation class LoginServlet
  */
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet 
+{
 
-	 
-public void doGet(HttpServletRequest request, HttpServletResponse response) 
-			           throws ServletException, java.io.IOException {
-	System.out.print("get int oservlts");
-try
-{	    
+	public void doGet(HttpServletRequest request, HttpServletResponse response) 
+			           throws ServletException, java.io.IOException 
+	{
 
-     User user = new User();
-     user.setUname(request.getParameter("uname"));
-     user = LoginDAO.login(user);
+		try
+		{	    
+			User user = new User();
+			user.setUname(request.getParameter("uname"));
+			user = LoginDAO.login(user);
 	   		    
-     if (user.isValid())
-     {
+		if (user.isValid())
+		{
 	        
-          HttpSession session = request.getSession(true);	    
-          session.setAttribute("currentSessionUser",user); 
-          response.sendRedirect("userLogged.jsp"); //logged-in page      		
-     }
+          HttpSession session = request.getSession(true);
+          String role = user.getUrole();
+          //System.out.print("ROLE!@@@@"+ role);
+          session.setAttribute("currentSessionUserRole",role); 
+          
+          response.sendRedirect("Home.jsp"); //logged-in page      		
+		}
 	        
      else 
-          response.sendRedirect("invalidLogin.jsp"); //error page 
+          response.sendRedirect("LoginFailed.jsp"); //error page 
 } 
 		
 		

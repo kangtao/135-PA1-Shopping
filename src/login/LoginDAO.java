@@ -16,7 +16,7 @@ public class LoginDAO {
         String username = bean.getUname();    
 	    
         String searchQuery =
-              "select * from e1 where name='"
+              "select * from users where name='"
                        + username
                        + "'";
 	    
@@ -43,12 +43,12 @@ public class LoginDAO {
         //if user exists set the isValid variable to true
         else if (more) 
         {
-           //String firstName = rs.getString("FirstName");
+           String role = rs.getString("role");
            //String lastName = rs.getString("LastName");
 	     	
-           System.out.println("Welcome ");
+           System.out.println("Welcome "+role);
            //bean.setUname(firstName);
-           //bean.setLastName(lastName);
+           bean.setUrole(role);
            bean.setValid(true);
         }
      } 

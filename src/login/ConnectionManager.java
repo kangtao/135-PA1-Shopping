@@ -4,11 +4,8 @@ import static register.Provider.CONNECTION_URL;
 import static register.Provider.DRIVER;
 import static register.Provider.PASSWORD;
 import static register.Provider.USERNAME;
-
 import java.sql.*;
-import java.util.*;
 
-import register.*;
 
 public class ConnectionManager {
 
