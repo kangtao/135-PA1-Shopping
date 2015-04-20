@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-You have logged in!
-</body>
-</html>
+Login Failed!<br/>
+<a href="Login.jsp">Login again</a>
+

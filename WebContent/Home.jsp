@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Home</title>
 </head>
 <body>
-Login Failed!
+Home</br>
+<a href="Categories.jsp">Categories</a></br>
+<a href="Login.jsp">Back to login</a>
 </body>
 </html>

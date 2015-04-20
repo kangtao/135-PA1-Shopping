@@ -10,3 +10,5 @@ if(status>0)
 else
 	out.print("Your signup failed");
 %>
+
+</br><a href="Login.jsp">back to login</a>

@@ -12,8 +12,8 @@
 Name&nbsp&nbsp&nbsp<input type="text" name="uname" value="" onclick="this.value=''"/><br/>
 
 Role&nbsp&nbsp&nbsp&nbsp&nbsp<SELECT NAME="urole">
-<OPTION value="Owner">Owner</OPTION>
-<OPTION value="Customer">Customer</OPTION>
+<OPTION value="owner">owner</OPTION>
+<OPTION value="customer">customer</OPTION>
 </SELECT><br/>
 <%--<input type="text" name="urole"  value="Role" onclick="this.value=''"/><br/> --%>
 
