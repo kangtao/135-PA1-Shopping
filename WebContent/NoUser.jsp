@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-blank
+No user logged in</br>
+<a href="Login.jsp">Back to login</a>
 </body>
 </html>

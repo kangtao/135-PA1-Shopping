@@ -1,8 +1,8 @@
 package register;
 
 public class User {
-private String uname,urole,ustate;
-private int uage;
+private String uname,urole,ustate,uage;
+//private  uage;
 private boolean valid;
 public String getUname() {
 	return uname;
@@ -20,11 +20,11 @@ public void setUrole(String urole) {
 	this.urole = urole;
 }
 
-public int getUage() {
+public String getUage() {
 	return uage;
 }
 
-public void setUage(int age) {
+public void setUage(String age) {
 	this.uage = age;
 }
 

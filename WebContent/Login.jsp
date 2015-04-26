@@ -9,7 +9,14 @@
 </head>
 <body>
 <h2>Welcome!</h2>
-<h2>Old users please login;New users please register</h2>
+<% String illegalName = (String)session.getAttribute("currentIllegalSessionUserName"); %>
+<% if (illegalName != null)
+	{
+		out.print("The provided name <"+illegalName+ "> is not known");
+	}
+
+
+%>
 <form action="LoginServlet">
 <input type="text" name="uname" value="Name..." onclick="this.value=''"/><br/>
 <input type="submit" value="login"/>

@@ -20,6 +20,12 @@ public class LoginServlet extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 			           throws ServletException, java.io.IOException 
 	{
+		HttpSession session = request.getSession(true);
+	    session.setAttribute("currentSessionUserName",null); 
+	    session.setAttribute("currentSessionUserRole",null); 
+	    session.setAttribute("currentIllegalSessionUserName",null); 
+		session.setAttribute("insertProductFailure",null); 
+
 
 		try
 		{	    
@@ -30,16 +36,23 @@ public class LoginServlet extends HttpServlet
 		if (user.isValid())
 		{
 	        
-          HttpSession session = request.getSession(true);
+          //HttpSession session = request.getSession(true);
+          String name = user.getUname();
           String role = user.getUrole();
           //System.out.print("ROLE!@@@@"+ role);
+          session.setAttribute("currentSessionUserName",name); 
           session.setAttribute("currentSessionUserRole",role); 
-          
+          session.setAttribute("currentIllegalSessionUserName",null); 
           response.sendRedirect("Home.jsp"); //logged-in page      		
 		}
 	        
      else 
-          response.sendRedirect("LoginFailed.jsp"); //error page 
+     {
+    	 //HttpSession session = request.getSession(true);
+		 session.setAttribute("currentIllegalSessionUserName",request.getParameter("uname")); 
+         response.sendRedirect("Login.jsp"); //error page 
+          
+     }
 } 
 		
 		

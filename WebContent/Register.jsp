@@ -17,8 +17,10 @@ Role&nbsp&nbsp&nbsp&nbsp&nbsp<SELECT NAME="urole">
 </SELECT><br/>
 <%--<input type="text" name="urole"  value="Role" onclick="this.value=''"/><br/> --%>
 
-Age&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" name="uage"	value=""	onclick="this.value=''" /><br/>
+<%--Age&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" name="uage" min="0" max="200" " /><br/>
 <%--<input type="text" name="ustate"  value="State" onclick="this.value=''"/><br/>--%>
+
+Age&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" name="uage"  value=""  /><br/>
 
 State&nbsp&nbsp&nbsp&nbsp
 <SELECT NAME="ustate">

@@ -5,16 +5,26 @@
 <html>
 
 <body>
-<%
-//response.sendRedirect("CategoriesOwner.jsp");
-String userRole= (String)session.getAttribute("currentSessionUserRole");
-//System.out.print("@@@" + userRole);
-//System.out.print(userRole == "owner");
-if(!userRole.equals("owner"))
-	out.print("This page is available to owners only");
+Hello <%=(String)session.getAttribute("currentSessionUserName")%></br>
+<% System.out.print((String)session.getAttribute("currentSessionUserName"));%></br>
+<% 
+if((String)session.getAttribute("currentSessionUserName") == null)
+{
+	response.sendRedirect("NoUser.jsp");
+}
 else
-	response.sendRedirect("CategoriesOwner.jsp");
+{
+	String userRole= (String)session.getAttribute("currentSessionUserRole");
+	if(!userRole.equals("owner"))
+		out.print("This page is available to owners only");
+	else
+		response.sendRedirect("CategoriesOwner.jsp");
+	
+
+}
 %>
+
+
 </br>
 <a href="Home.jsp">Back to home</a>
 </body>

@@ -5,7 +5,22 @@
 <html>
 
 <body>
-Categories
+Hello <%=(String)session.getAttribute("currentSessionUserName")%></br>
+<% if((String)session.getAttribute("currentSessionUserName") == null)
+{
+	response.sendRedirect("NoUser.jsp");
+	
+}
+%>
+Categories</br>
+<% if((String)session.getAttribute("modificationFailure") == "true")
+{
+	out.print("data modification failure");
+	session = request.getSession(true);
+	session.setAttribute("modificationFailure","false"); 
+}
+%>
+
 <table>
     <tr>
         <td>
@@ -32,7 +47,8 @@ Categories
             <%
                 String action = request.getParameter("action");
                 // Check if an insertion is requested
-                if (action != null && action.equals("insert")) {
+                if (action != null && action.equals("insert")) 
+                {
 
                     // Begin transaction
                     conn.setAutoCommit(false);
@@ -52,6 +68,7 @@ Categories
                     conn.commit();
                     conn.setAutoCommit(true);
                 }
+                
             %>
             
             <%-- -------- UPDATE Code -------- --%>
@@ -84,6 +101,54 @@ Categories
             <%
                 // Check if a delete is requested
                 if (action != null && action.equals("delete")) {
+
+                	Connection conn3 = null;
+	           		PreparedStatement pstmt3 = null;
+	            	ResultSet rs3 = null;
+	            	Statement statement3 = null; 
+	            	int c = 0;
+	            	try 
+	            	{
+	                // Registering Postgresql JDBC driver with the DriverManager
+	                	Class.forName(DRIVER);
+	                	conn3 = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
+						pstmt3 = conn.prepareStatement("SELECT COUNT(*) as count FROM products where category = ?");
+                    	pstmt3.setString(1, request.getParameter("name"));
+                    	
+                    	//System.out.print("####");
+                    	//System.out.print(rs.getString("name")+"\n");
+                    	rs3 = pstmt3.executeQuery();
+                    	while(rs3.next())
+                    	{
+                    		System.out.print(rs3.getString("count"));
+                    		c = Integer.parseInt(rs3.getString("count"));
+                    	}
+                    		
+                    	if(c != 0)
+						{
+                    	    session = request.getSession(true);
+             	    		session.setAttribute("modificationFailure","true"); 
+                         	response.sendRedirect("CategoriesOwner.jsp");
+						}
+     
+	            	}
+	            	
+	            	finally
+	            	{
+	            		
+	            		if(rs3 != null  && conn3 != null)
+	                	{
+	                    // Close the ResultSet
+	                    	rs3.close();
+
+	                    // Close the Statement
+	                    //statement2.close();
+
+	                    // Close the Connection
+	                    	conn3.close();
+	                	}
+	            	}
+	            	
 
                     // Begin transaction
                     conn.setAutoCommit(false);
@@ -125,7 +190,7 @@ Categories
                 <form action="CategoriesOwner.jsp" method="POST">
                     <input type="hidden" name="action" value="insert"/>
                     <th>&nbsp;</th>
-                    <th><input value="" name="name" size="10"/></th>
+                    <th><input value="" name="name" size="15"/></th>
                     <th><input value="" name="description" size="15"/></th>
                     <th><input type="submit" value="Insert"/></th>
                 </form>
@@ -156,21 +221,72 @@ Categories
                 <td>
                     <input value="<%=rs.getString("description")%>" name="description" size="15"/>
                 </td>
-
-
-
-                <%-- Button --%>
+               <%-- Button --%>
                 <td><input type="submit" value="Update"></td>
                 </form>
+		
+				<%
+					Connection conn2 = null;
+	           		PreparedStatement pstmt2 = null;
+	            	ResultSet rs2 = null;
+	            	Statement statement2 = null; 
+	            	int c = 0;
+	            	try 
+	            	{
+	                // Registering Postgresql JDBC driver with the DriverManager
+	                	Class.forName(DRIVER);
+	                	conn2 = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
+						pstmt2 = conn.prepareStatement("SELECT COUNT(*) as count FROM products where category = ?");
+                    	pstmt2.setString(1, rs.getString("name"));
+
+                    	rs2 = pstmt2.executeQuery();
+                    	while(rs2.next())
+                    	{
+                    		System.out.print(rs2.getString("count"));
+                    		c = Integer.parseInt(rs2.getString("count"));
+                    	}
+                    		
+                    	if(c == 0)
+						{
+					
+					
+				%>
+ 
+                
                 <form action="CategoriesOwner.jsp" method="POST">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" value="<%=rs.getInt("id")%>" name="id"/>
-                    <%-- Button --%>
+                    <input type="hidden" value="<%=rs.getString("name")%>" name="name"/>
+                
+                <%-- Button --%>
+                
+                
                 <td><input type="submit" value="Delete"/></td>
+                <%}%>
                 </form>
             </tr>
 
             <%
+            if(rs2 != null  && conn2 != null)
+        	{
+            // Close the ResultSet
+            	rs2.close();
+
+            // Close the Statement
+            //statement2.close();
+
+            // Close the Connection
+            	conn2.close();
+        	}
+            }
+        	
+	        catch (SQLException e) 
+	         {
+
+            // Wrap the SQL exception in a runtime exception to propagate
+            // it upwards
+            throw new RuntimeException(e);
+        	}
                 }
             %>
 
@@ -184,11 +300,19 @@ Categories
 
                 // Close the Connection
                 conn.close();
-            } catch (SQLException e) {
-
+            } 
+            catch (SQLException e) 
+            {
+				
                 // Wrap the SQL exception in a runtime exception to propagate
                 // it upwards
-                throw new RuntimeException(e);
+                if((String)session.getAttribute("modificationFailure") != "true")
+                {
+                	session = request.getSession(true);
+	    			session.setAttribute("modificationFailure","true"); 
+            		response.sendRedirect("CategoriesOwner.jsp");
+                }
+                
             }
             
             finally {
