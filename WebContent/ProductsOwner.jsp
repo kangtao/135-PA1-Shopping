@@ -15,19 +15,33 @@
 	Products</br>
 	<% 
 	//System.out.print((String)session.getAttribute("insertProductFailure") );
+		if((String)session.getAttribute("updateFailure") != null)
+		{
+		//System.out.print("true");
+		out.print((String)session.getAttribute("updateFailure"));
+		session = request.getSession(true);
+		session.setAttribute("updateFailure",null); 
+		}
+		if((String)session.getAttribute("deleteFailure") != null)
+		{
+		//System.out.print("true");
+		out.print((String)session.getAttribute("deleteFailure"));
+		session = request.getSession(true);
+		session.setAttribute("deleteFailure",null); 
+		}
 		if((String)session.getAttribute("insertProductFailure") == "true")
 		{
-			System.out.print("true");
+			//System.out.print("true");
 			out.print("Failure to insert new product");
 			session = request.getSession(true);
-			session.setAttribute("modificationFailure",null); 
+			session.setAttribute("insertProductFailure",null); 
 		}
 		else if((String)session.getAttribute("insertProductFailure") == "false")
 		{
-			System.out.print("flase");
+			//System.out.print("flase");
 			out.print("Success to insert new product");
 			session = request.getSession(true);
-			session.setAttribute("modificationFailure",null); 
+			session.setAttribute("insertProductFailure",null); 
 		}
 	
 	%>
@@ -79,7 +93,7 @@
 				// Commit transaction
                 conn.commit();
                 conn.setAutoCommit(true);
-                          
+   
                           
             }
 			
@@ -104,11 +118,25 @@
                 }
                    
             }
+			
 
         }
                 
      %>
-                       
+                    
+     <%
+            if (action != null && action.equals("reset")) 
+            { 
+            	session = request.getSession(true);
+            	session.setAttribute("searchName",null); 
+            	session.setAttribute("selectCategory",null); 
+            	session.setAttribute("modificationFailure",null); 
+            	session.setAttribute("insertProductFailure",null); 
+            	response.sendRedirect("ProductsOwner.jsp");
+            	
+            }
+     %>
+            
 		<!-- Add an HTML table header row to format the results -->
         <table border="1">
         table2
@@ -123,9 +151,9 @@
         	<form action="ProductsOwner.jsp" method="POST">
             <input type="hidden" name="action" value="insert"
             />
-            <!--  <input type="hidden" name="action" value="search"
-            />-->
+            <!--
             <input type="hidden" name="keys" value=<%=(String)session.getAttribute("searchName")%>/>
+            -->
             <th>&nbsp;</th>
             <th><input value="" name="name" size="10"/></th>
             <th><SELECT name="category">
@@ -141,8 +169,10 @@
 			<th><input value="" name="sku" size="15"/></th>
             <th><input value="" name="price" size="15"/></th>
             <th><input type="submit" value="Insert"/></th>
+            
             </form>
          </tr>
+
 
            
             <%-- -------- Close Connection Code -------- --%>
@@ -215,6 +245,11 @@ table3
                    	
                     </form>
                     </td>
+                 <td>
+         <form action="ProductsOwner.jsp" method="POST">
+            <input type="hidden" name="action" value="reset">
+            <th><input type="submit" value="reset"/></th>
+         </td>
 <td>
 </td>
 </tr>
@@ -261,25 +296,6 @@ table4
             <tr>
                 <th>Category</th>
             </tr>
-  <%
-                // Iterate over the ResultSet
-                while (rs.next()) {
-            %>
-            <tr>
-
-
-                <%-- Get the name --%>
-					<td><form action="ProductsOwner.jsp" method="POST">
-                    <input type="hidden" name="action" value="select"/>
-                    <!--<input value="<%=rs.getString("name")%>" name="name"/>-->
-                   	<input type = "submit" value=<%=rs.getString("name")%> name="name" size="45"/>
-                    </form>
-                    </td>
-
- 
-            </tr>
-
-            <% }%>
             <tr>
        
                     <td><form action="ProductsOwner.jsp" method="POST">
@@ -288,6 +304,29 @@ table4
                 	</form>
                     </td>
             </tr>
+  			<%
+                // Iterate over the ResultSet
+                while (rs.next()) 
+                {
+                	//System.out.print("next");
+            %>
+            <tr>
+
+
+                <%-- Get the name --%>
+					<td><form action="ProductsOwner.jsp" method="POST">
+                    <input type="hidden" name="action" value="select"/>
+                    <!--<input value="<%=rs.getString("name")%>" name="name"/>-->
+
+                   	<input type = "submit" value=<%=rs.getString("name")%> name="name" size="45"/>
+                    </form>
+                    </td>
+
+ 
+            </tr>
+
+            <% }%>
+
 
             <%-- -------- Close Connection Code -------- --%>
             <%
@@ -345,12 +384,16 @@ table4
             ResultSet rs2 = null;
             Statement statement2 = null; 
             ResultSet rs3 = null;
-            try {
+            int failureSource = 0;
+            try 
+            {
                 // Registering Postgresql JDBC driver with the DriverManager
                 Class.forName(DRIVER);
 
                 // Open a connection to the database using DriverManager
                 conn2 = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
+
+
             %>
             
             <%-- -------- Select Category Code -------- --%>
@@ -359,7 +402,7 @@ table4
             String action = request.getParameter("action");
             if (action != null && action.equals("select")) 
             {
-            	
+            	System.out.print("select action");
             	Statement statement = conn2.createStatement();
             	
 				// Use the created statement to SELECT
@@ -371,11 +414,13 @@ table4
 					pstmt2 = conn2.prepareStatement("SELECT * FROM products where category = ? and name LIKE ?");
                 	//System.out.print(request.getParameter("name"));
                 	//System.out.print(request.getParameter("name").equals( "All products"));
+                	
                 	if(!request.getParameter("name").equals("All products"))
                 	{
                 		pstmt2.setString(1, request.getParameter("name"));
                 		pstmt2.setString(2, "%"+(String)session.getAttribute("searchName")+"%");
                 		session.setAttribute("selectCategory",request.getParameter("name"));
+                		
                 	//System.out.print(request.getParameter("name"));
                 	//System.out.print("%"+(String)session.getAttribute("searchName")+"%");
                 	//System.out.print("!!!!"+"run");
@@ -417,21 +462,18 @@ table4
 				rs3 = statement.executeQuery("SELECT name FROM categories");
                 
             }
-           
-            //search
 
-            action = request.getParameter("action");
-            if (action != null && action.equals("search")) 
+            else if (action != null && action.equals("search")) 
             {
-            	System.out.print("!!!!!");
+            	//System.out.print("search action");
             	session = request.getSession(true);
     			session.setAttribute("searchName",request.getParameter("keys")); 
                 pstmt2 = conn2.prepareStatement("SELECT * FROM products WHERE name LIKE ? and category =?");
 				//System.out.print(request.getParameter("name")+"!!!!");
-				if((String)session.getAttribute("searcCategory") != null)
+				if((String)session.getAttribute("selectCategory") != null)
 				{
 					pstmt2.setString(1, "%"+(String)session.getAttribute("searchName")+"%");
-					pstmt2.setString(2, (String)session.getAttribute("searcCategory"));
+					pstmt2.setString(2, (String)session.getAttribute("selectCategory"));
 				}
 				else
 				{
@@ -443,13 +485,60 @@ table4
                 
 
                 rs2 = pstmt2.executeQuery();
-                System.out.print("go into search");
                 Statement statement = conn2.createStatement();
 
 				// Use the created statement to SELECT
 				// the student attributes FROM the Student table.
 				rs3 = statement.executeQuery("SELECT name FROM categories");
                 
+            }
+            else if(session.getAttribute("selectCategory") != null)
+            {
+            	if(session.getAttribute("searchName") != null)
+            	{
+            		pstmt2 = conn2.prepareStatement("SELECT * FROM products WHERE name LIKE ? and category =?");
+            		pstmt2.setString(1, "%"+(String)session.getAttribute("searchName")+"%");
+					pstmt2.setString(2, (String)session.getAttribute("selectCategory"));
+            		
+            	}
+            	else
+            	{
+            		pstmt2 = conn2.prepareStatement("SELECT * FROM products WHERE category =?");
+            		pstmt2.setString(1, (String)session.getAttribute("selectCategory"));
+            	}
+            	rs2 = pstmt2.executeQuery();
+            	Statement statement = conn2.createStatement();
+				rs3 = statement.executeQuery("SELECT name FROM categories");
+            }
+            else if(session.getAttribute("searchName") != null)
+            {
+            	System.out.print("ONLY key");
+            	if(session.getAttribute("selectCategory") != null)
+            	{
+            		System.out.print("have category");
+            		pstmt2 = conn2.prepareStatement("SELECT * FROM products WHERE name LIKE ? and category =?");
+            		pstmt2.setString(1, "%"+(String)session.getAttribute("searchName")+"%");
+					pstmt2.setString(2, (String)session.getAttribute("selectCategory"));
+            		
+            	}
+            	else
+            	{	
+            		System.out.print("No category");
+            		pstmt2 = conn2.prepareStatement("SELECT * FROM products WHERE name LIKE ?");
+            		pstmt2.setString(1, "%"+(String)session.getAttribute("searchName")+"%");
+            	}
+            	rs2 = pstmt2.executeQuery();
+            	Statement statement = conn2.createStatement();
+				rs3 = statement.executeQuery("SELECT name FROM categories");
+            }
+            
+            else
+            {	
+            	pstmt2 = conn2.prepareStatement("SELECT * FROM products");
+        		rs2 = pstmt2.executeQuery();
+        		Statement statement = conn2.createStatement();
+        		rs3 = statement.executeQuery("SELECT name FROM categories");
+            	//System.out.print("!!!");
             }
             
  
@@ -459,8 +548,9 @@ table4
             <%-- -------- UPDATE Code -------- --%>
             <%
                 // Check if an update is requested
-                if (action != null && action.equals("update")) {
-
+                if (action != null && action.equals("update")) 
+                {
+                	failureSource = 1;
                     // Begin transaction
                     conn2.setAutoCommit(false);
 
@@ -480,13 +570,16 @@ table4
                     // Commit transaction
                     conn2.commit();
                     conn2.setAutoCommit(true);
+                    response.sendRedirect("ProductsOwner.jsp");
                 }
             %>
                     
-                    <%-- -------- delete Code -------- --%>
+            <%-- -------- delete Code -------- --%>
             <%
                 // Check if an update is requested
-                if (action != null && action.equals("delete")) {
+                if (action != null && action.equals("delete")) 
+                {
+                	failureSource = 2;
                 	conn2.setAutoCommit(false);
 
                     // Create the prepared statement and use it to
@@ -501,6 +594,7 @@ table4
                     // Commit transaction
                     conn2.commit();
                     conn2.setAutoCommit(true);
+                    response.sendRedirect("ProductsOwner.jsp");
                 }
             %>
             <!-- Add an HTML table header row to format the results -->
@@ -515,17 +609,17 @@ table4
             </tr>
   <%
                 // Iterate over the ResultSet
-                if (action != null && (action.equals("select")||action.equals("search"))) 
-                {
+              
                 	//System.out.print("!!!!tabkeaakdfg!!");
-                	while (rs2.next()) {
+                	while (rs2.next()) 
+                	{
             %>
             <tr>
              <form action="ProductsOwner.jsp" method="POST">
                     <input type="hidden" name="action" value="update"/>
                     <input type="hidden" name="id" value="<%=rs2.getInt("id")%>"/>
                     <input type="hidden" name="category" value="<%=rs2.getString("category")%>"/>
-      <%-- Get the id --%>
+      		<%-- Get the id --%>
                 <td>
                     <%=rs2.getInt("id")%>
                 </td>
@@ -583,7 +677,7 @@ table4
                 
             </tr>
 
-            <% }}%>
+            <% }%>
 
             <%-- -------- Close Connection Code -------- --%>
             <%
@@ -599,12 +693,44 @@ table4
                 // Close the Connection
                 conn2.close();
             	}
-            } catch (SQLException e) {
+            } catch (SQLException e) 
+            {
 
                 // Wrap the SQL exception in a runtime exception to propagate
                 // it upwards
-                throw new RuntimeException(e);
+            	session = request.getSession(true);
+                if(failureSource == 1)
+                {
+        			session.setAttribute("updateFailure","update failure"); 
+                }
+                if(failureSource == 2)
+                {
+        			session.setAttribute("deleteFailure","delete failure"); 
+                }
+        		failureSource = 0;
+        		response.sendRedirect("ProductsOwner.jsp");
+        		
             }
+            catch (Exception e) 
+       			{
+       				// Wrap the SQL exception in a runtime exception to propagate
+                       // it upwards
+                       //throw new RuntimeException(e);
+       				System.out.print(e);
+                    //failure = true;
+            		session = request.getSession(true);
+            		 if(failureSource == 1)
+                     {
+             			session.setAttribute("updateFailure","update failure"); 
+                     }
+                     if(failureSource == 2)
+                     {
+             			session.setAttribute("deleteFailure","delete failure"); 
+                     }
+            		failureSource = 0;
+            		response.sendRedirect("ProductsOwner.jsp");
+
+                 }
             
             finally {
 

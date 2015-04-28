@@ -12,7 +12,7 @@ Hello <%=(String)session.getAttribute("currentSessionUserName")%></br>
 <% 
 session = request.getSession(true);
 session.setAttribute("searchName",null); 
-session.setAttribute("searchCategory",null); 
+session.setAttribute("selectCategory",null); 
 session.setAttribute("modificationFailure",null); 
 session.setAttribute("insertProductFailure",null); 
 if((String)session.getAttribute("currentSessionUserName") == null)
