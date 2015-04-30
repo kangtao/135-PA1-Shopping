@@ -1,9 +1,16 @@
 package register;
 
 public class User {
-private String uname,urole,ustate,uage;
+private String uname,urole,ustate,uage,id;
 //private  uage;
 private boolean valid;
+
+public String getUID() {
+	return id;
+}
+public void setUID(String id) {
+	this.id = id;
+}
 public String getUname() {
 	return uname;
 }

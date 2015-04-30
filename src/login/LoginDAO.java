@@ -44,10 +44,12 @@ public class LoginDAO {
         else if (more) 
         {
            String role = rs.getString("role");
+           String id = rs.getString("id");
            //String lastName = rs.getString("LastName");
 	     	
            System.out.println("Welcome "+role);
            //bean.setUname(firstName);
+           bean.setUID(id);
            bean.setUrole(role);
            bean.setValid(true);
         }

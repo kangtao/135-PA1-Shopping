@@ -8,21 +8,30 @@
 </head>
 <body>
 Hello <%=(String)session.getAttribute("currentSessionUserName")%></br>
-
+Home</br>
 <% 
+if((String)session.getAttribute("currentSessionUserName") == null)
+{
+	response.sendRedirect("NoUser.jsp");
+}
+String userRole= (String)session.getAttribute("currentSessionUserRole");
+%>
+	<a href="BuyShoppingCart.jsp">BuyShoppingCart</a></br>
+
+
+ <% 
+
 session = request.getSession(true);
 session.setAttribute("searchName",null); 
 session.setAttribute("selectCategory",null); 
 session.setAttribute("modificationFailure",null); 
 session.setAttribute("insertProductFailure",null); 
-if((String)session.getAttribute("currentSessionUserName") == null)
-{
-	response.sendRedirect("NoUser.jsp");
-}
+
 %>
-Home</br>
+
 <a href="Categories.jsp">Categories</a></br>
 <a href="Products.jsp">Products</a></br>
+<a href="ProductsBrowsing.jsp">Products Browsing</a></br>
 <a href="Login.jsp">Back to login</a>
 </body>
 </html>
