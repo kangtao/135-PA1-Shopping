@@ -7,41 +7,32 @@ import static register.Provider.USERNAME;
 import java.sql.*;
 
 
-public class ConnectionManager {
+public class ConnectionManager 
+{
 
    static Connection con;
    static String url;
          
    public static Connection getConnection()
    {
-     
-      try
-      {
-         //String url = "jdbc:odbc:" + "DataSource"; 
-         // assuming "DataSource" is your DataSource name
+	   try
+	   {
+		   Class.forName(DRIVER);
+		   try
+		   {            	
+			   con = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD); 
 
-         Class.forName(DRIVER);
-         
-         try
-         {            	
-            con = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD); 
-             								
-         // assuming your SQL Server's	username is "username"               
-         // and password is "password"
-              
-         }
-         
-         catch (SQLException ex)
-         {
-            ex.printStackTrace();
-         }
-      }
+		   }
+		   catch (SQLException ex)
+		   {
+			   ex.printStackTrace();
+		   }
+       }
+	   catch(ClassNotFoundException e)
+	   {
+		   System.out.println(e);
+	   }
 
-      catch(ClassNotFoundException e)
-      {
-         System.out.println(e);
-      }
-
-   return con;
-}
+	   return con;
+   }
 }

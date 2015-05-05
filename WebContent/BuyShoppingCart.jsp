@@ -49,7 +49,7 @@ myArrayList = (ArrayList<ArrayList<String>>)session.getAttribute("cart");
     	   
        }
      %>
-     
+  </br>   
 Shopping Cart</br>
 <table border="1">
 

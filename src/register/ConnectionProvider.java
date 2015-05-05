@@ -2,9 +2,11 @@ package register;
 import java.sql.*;
 import static register.Provider.*;
 
-public class ConnectionProvider {
+public class ConnectionProvider 
+{
 	static Connection con=null;
-	static{
+	static
+	{
 		try
 		{
 			Class.forName(DRIVER);
@@ -15,6 +17,7 @@ public class ConnectionProvider {
 			
 		}
 	}
+	
 	public static Connection getCon(){
 		return con;
 	}

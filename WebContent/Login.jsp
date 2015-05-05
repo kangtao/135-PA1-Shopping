@@ -13,6 +13,8 @@
 <% if (illegalName != null)
 	{
 		out.print("The provided name <"+illegalName+ "> is not known");
+		session = request.getSession(true);
+		session.setAttribute("currentIllegalSessionUserName",null); 
 	}
 
 

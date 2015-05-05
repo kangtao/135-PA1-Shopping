@@ -17,8 +17,7 @@ import register.*;
 public class LoginServlet extends HttpServlet 
 {
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) 
-			           throws ServletException, java.io.IOException 
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, java.io.IOException 
 	{
 		HttpSession session = request.getSession(true);
 	    session.setAttribute("currentSessionUserName",null); 
@@ -27,43 +26,33 @@ public class LoginServlet extends HttpServlet
 	    session.setAttribute("currentIllegalSessionUserName",null); 
 		session.setAttribute("insertProductFailure",null); 
 
-
 		try
 		{	    
 			User user = new User();
 			user.setUname(request.getParameter("uname"));
 			user = LoginDAO.login(user);
 	   		    
-		if (user.isValid())
+			if (user.isValid())
+			{
+				String name = user.getUname();
+				String role = user.getUrole();
+				String id = user.getUID();
+				session.setAttribute("currentSessionUserName",name); 
+				session.setAttribute("currentSessionUserRole",role); 
+				session.setAttribute("currentSessionUserID",id); 
+				session.setAttribute("currentIllegalSessionUserName",null); 
+				session.setAttribute("cart", new ArrayList<ArrayList<String>>());
+				response.sendRedirect("Home.jsp");    		
+			}
+	        else 
+	        {
+	        	session.setAttribute("currentIllegalSessionUserName",request.getParameter("uname")); 
+	        	response.sendRedirect("Login.jsp"); 
+	        }
+		} 
+		catch (Throwable theException) 	    
 		{
-	        
-          //HttpSession session = request.getSession(true);
-          String name = user.getUname();
-          String role = user.getUrole();
-          String id = user.getUID();
-          //System.out.print("ROLE!@@@@"+ role);
-          session.setAttribute("currentSessionUserName",name); 
-          session.setAttribute("currentSessionUserRole",role); 
-          session.setAttribute("currentSessionUserID",id); 
-          System.out.println("ID!!!!!!!$$$!"+id);
-          session.setAttribute("currentIllegalSessionUserName",null); 
-          session.setAttribute("cart", new ArrayList<ArrayList<String>>());
-          response.sendRedirect("Home.jsp"); //logged-in page      		
+			System.out.println(theException); 
 		}
-	        
-     else 
-     {
-    	 //HttpSession session = request.getSession(true);
-		 session.setAttribute("currentIllegalSessionUserName",request.getParameter("uname")); 
-         response.sendRedirect("Login.jsp"); //error page 
-          
-     }
-} 
-		
-		
-catch (Throwable theException) 	    
-{
-     System.out.println(theException); 
-}
-       }
 	}
+}

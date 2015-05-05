@@ -21,7 +21,7 @@
 	if(!userRole.equals("owner"))
 	{
 	%>
-	<a href="BuyShoppingCart.jsp">BuyShoppingCart</a></br>
+	<a href="BuyShoppingCart.jsp">Buy Shopping Cart</a></br>
 	<% 
 	}
 	%>
@@ -117,7 +117,6 @@
         </table>
 
 <table>
-table3
 <tr>
 <td>
 	<form action="ProductsBrowsing.jsp" method="POST">
@@ -140,11 +139,9 @@ table3
 </table>
 
 <table>
-table4
     <tr>
     	<td>
     		<table>  <%-- -------- Second category table-------- --%>
-				table5
 				<tr>
         			<td>    
             			<%-- -------- Open Connection Code -------- --%>
@@ -182,7 +179,6 @@ table4
                 // Iterate over the ResultSet
                 while (rs.next()) 
                 {
-                	//System.out.print("next");
             %>
             <tr>
 
@@ -435,7 +431,6 @@ table4
            
             <!-- Add an HTML table header row to format the results -->
             <table border="1">
-            table6
             <tr>
                 <th>ID</th>
                 <th>name</th>

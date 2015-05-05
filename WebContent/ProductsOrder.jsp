@@ -30,7 +30,6 @@ ArrayList<String> testArrayList;
 		String name = request.getParameter("name");
 		String price = request.getParameter("price");
 		String productID = request.getParameter("id");
-		System.out.print("!!"+productID);
 		if(name != null && price != null)
 		{
 		out.print("The quantity of " + name + " you need at price of " + price + ":\n");
@@ -51,7 +50,8 @@ ArrayList<String> testArrayList;
 		}
 %>
 	
-	  
+	
+	</br>  
      <table border="1">
      Shopping Cart
             <tr>

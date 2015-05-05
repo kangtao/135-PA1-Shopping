@@ -7,7 +7,7 @@
 <title>No User</title>
 </head>
 <body>
-No user logged in</br>
-<a href="Login.jsp">Back to login</a>
+	No user logged in</br>	
+	<a href="Login.jsp">Back to login</a>
 </body>
 </html>

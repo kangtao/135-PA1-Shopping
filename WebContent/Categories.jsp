@@ -10,27 +10,24 @@
 <body>
 Hello <%=(String)session.getAttribute("currentSessionUserName")%></br>
 <% if((String)session.getAttribute("currentSessionUserName") == null)
-{
-	response.sendRedirect("NoUser.jsp");
-}
-else
-{
-	String userRole= (String)session.getAttribute("currentSessionUserRole");
-	if(!userRole.equals("owner"))
-		out.print("This page is available to owners only");
+	{
+		response.sendRedirect("NoUser.jsp");
+	}
 	else
 	{
-	
-
-
+		String userRole= (String)session.getAttribute("currentSessionUserRole");
+		if(!userRole.equals("owner"))
+			out.print("This page is available to owners only");
+		else
+		{
 %>
 Categories</br>
-<% if((String)session.getAttribute("modificationFailure") == "true")
-{
-	out.print("data modification failure");
-	session = request.getSession(true);
-	session.setAttribute("modificationFailure","false"); 
-}
+<% 			if((String)session.getAttribute("modificationFailure") == "true")
+			{
+				out.print("data modification failure");
+				session = request.getSession(true);
+				session.setAttribute("modificationFailure","false"); 	
+			}
 %>
 
 <table>
@@ -43,151 +40,138 @@ Categories</br>
             <%-- -------- Open Connection Code -------- --%>
             <%
             
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
+            	Connection conn = null;
+            	PreparedStatement pstmt = null;
+            	ResultSet rs = null;
             
-            try {
-                // Registering Postgresql JDBC driver with the DriverManager
-                Class.forName(DRIVER);
+            	try 
+            	{
+                	// Registering Postgresql JDBC driver with the DriverManager
+                	Class.forName(DRIVER);
 
-                // Open a connection to the database using DriverManager
-                conn = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
+                	// Open a connection to the database using DriverManager
+                	conn = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
             %>
             
             <%-- -------- INSERT Code -------- --%>
             <%
-                String action = request.getParameter("action");
-                // Check if an insertion is requested
-                if (action != null && action.equals("insert")) 
-                {
+              		String action = request.getParameter("action");
+                	// Check if an insertion is requested
+                	if (action != null && action.equals("insert")) 
+                	{
 
-                    // Begin transaction
-                    conn.setAutoCommit(false);
+                    	// Begin transaction
+                    	conn.setAutoCommit(false);
 
-                    // Create the prepared statement and use it to
-                    // INSERT student values INTO the students table.
-                    pstmt = conn
-                    .prepareStatement("INSERT INTO categories (name, description) VALUES (?, ?)");
+                    	// Create the prepared statement and use it to
+                    	// INSERT student values INTO the students table.
+                    	pstmt = conn.prepareStatement("INSERT INTO categories (name, description) VALUES (?, ?)");
 
-                    pstmt.setString(1, request.getParameter("name"));
-                    pstmt.setString(2, request.getParameter("description"));
+                    	pstmt.setString(1, request.getParameter("name"));
+                    	pstmt.setString(2, request.getParameter("description"));
 
-                    //int rowCount = 
-                    		pstmt.executeUpdate();
+                    	pstmt.executeUpdate();
 
-                    // Commit transaction
-                    conn.commit();
-                    conn.setAutoCommit(true);
-                }
+                    	// Commit transaction
+                    	conn.commit();
+                    	conn.setAutoCommit(true);
+                	}
                 
             %>
             
             <%-- -------- UPDATE Code -------- --%>
             <%
-                // Check if an update is requested
-                if (action != null && action.equals("update")) {
+            		// Check if an update is requested
+                	if (action != null && action.equals("update")) 
+                	{
 
-                    // Begin transaction
-                    conn.setAutoCommit(false);
+                    	// Begin transaction
+                    	conn.setAutoCommit(false);
 
-                    // Create the prepared statement and use it to
-                    // UPDATE student values in the Students table.
-                    pstmt = conn
-                        .prepareStatement("UPDATE categories SET name = ?, description = ? WHERE id = ?");
-					//System.out.print("!!!!");
-					//System.out.print(request.getParameter("id"));
-                    pstmt.setString(1, request.getParameter("name"));
-                    pstmt.setString(2, request.getParameter("description"));
-                    pstmt.setInt(3, Integer.parseInt(request.getParameter("id")));
-                    //int rowCount = 
-                    		pstmt.executeUpdate();
+                    	// Create the prepared statement and use it to
+                    	// UPDATE student values in the Students table.
+                    	pstmt = conn.prepareStatement("UPDATE categories SET name = ?, description = ? WHERE id = ?");
+                    	pstmt.setString(1, request.getParameter("name"));
+                    	pstmt.setString(2, request.getParameter("description"));
+                    	pstmt.setInt(3, Integer.parseInt(request.getParameter("id")));
+                   		pstmt.executeUpdate();
 
-                    // Commit transaction
-                    conn.commit();
-                    conn.setAutoCommit(true);
-                }
+                    	// Commit transaction
+                    	conn.commit();
+                    	conn.setAutoCommit(true);
+                	}
             %>
             
             <%-- -------- DELETE Code -------- --%>
             <%
-                // Check if a delete is requested
-                if (action != null && action.equals("delete")) {
-
-                	Connection conn3 = null;
-	           		PreparedStatement pstmt3 = null;
-	            	ResultSet rs3 = null;
-	            	Statement statement3 = null; 
-	            	int c = 0;
-	            	try 
-	            	{
-	                // Registering Postgresql JDBC driver with the DriverManager
-	                	Class.forName(DRIVER);
-	                	conn3 = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
-						pstmt3 = conn.prepareStatement("SELECT COUNT(*) as count FROM products where category = ?");
-                    	pstmt3.setString(1, request.getParameter("name"));
+                	// Check if a delete is requested
+                	if (action != null && action.equals("delete")) 
+                	{
+						Connection conn3 = null;
+	           			PreparedStatement pstmt3 = null;
+	            		ResultSet rs3 = null;
+	            		Statement statement3 = null; 
+	            		int c = 0;
+	            		try 
+	            		{
+	                		// Registering Postgresql JDBC driver with the DriverManager
+	                		Class.forName(DRIVER);
+	                		conn3 = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
+							pstmt3 = conn.prepareStatement("SELECT COUNT(*) as count FROM products where category = ?");
+                    		pstmt3.setString(1, request.getParameter("name"));
                     	
-                    	//System.out.print("####");
-                    	//System.out.print(rs.getString("name")+"\n");
-                    	rs3 = pstmt3.executeQuery();
-                    	while(rs3.next())
-                    	{
-                    		System.out.print(rs3.getString("count"));
-                    		c = Integer.parseInt(rs3.getString("count"));
-                    	}
+                    		rs3 = pstmt3.executeQuery();
+                    		while(rs3.next())
+                    		{
+                    			//System.out.print(rs3.getString("count"));
+                    			c = Integer.parseInt(rs3.getString("count"));
+                    		}
                     		
-                    	if(c != 0)
-						{
-                    	    session = request.getSession(true);
-             	    		session.setAttribute("modificationFailure","true"); 
-                         	response.sendRedirect("Categories.jsp");
-						}
+                    		if(c != 0)
+							{
+                    	    	session = request.getSession(true);
+             	    			session.setAttribute("modificationFailure","true"); 
+             	    			//  not deletable
+                         		response.sendRedirect("Categories.jsp");
+							}
      
-	            	}
-	            	
-	            	finally
-	            	{
+	            		}
+	            		finally
+	            		{
 	            		
-	            		if(rs3 != null  && conn3 != null)
-	                	{
-	                    // Close the ResultSet
-	                    	rs3.close();
-
-	                    // Close the Statement
-	                    //statement2.close();
-
-	                    // Close the Connection
-	                    	conn3.close();
-	                	}
-	            	}
+	            			if(rs3 != null  && conn3 != null)
+	                		{
+	                    		// Close the ResultSet
+	                    		rs3.close();
+	                    		conn3.close();
+	                		}
+	            		}
 	            	
 
-                    // Begin transaction
-                    conn.setAutoCommit(false);
+                    	// Begin transaction
+                    	conn.setAutoCommit(false);
 
-                    // Create the prepared statement and use it to
-                    // DELETE students FROM the Students table.
-                    pstmt = conn
-                        .prepareStatement("DELETE FROM categories WHERE id = ?");
+                    	// Create the prepared statement and use it to
+                    	// DELETE students FROM the Students table.
+                    	pstmt = conn.prepareStatement("DELETE FROM categories WHERE id = ?");
 
-                    pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
-                    //int rowCount = 
-                    		pstmt.executeUpdate();
+                    	pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
+                    	pstmt.executeUpdate();
 
-                    // Commit transaction
-                    conn.commit();
-                    conn.setAutoCommit(true);
-                }
+                    	// Commit transaction
+                    	conn.commit();
+                    	conn.setAutoCommit(true);
+                	}
             %>
 
             <%-- -------- SELECT Statement Code -------- --%>
             <%
-                // Create the statement
-                Statement statement = conn.createStatement();
+                	// Create the statement
+                	Statement statement = conn.createStatement();
 
-                // Use the created statement to SELECT
-                // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM categories");
+                	// Use the created statement to SELECT
+                	// the student attributes FROM the Student table.
+                	rs = statement.executeQuery("SELECT * FROM categories");
             %>
             
             <!-- Add an HTML table header row to format the results -->
@@ -211,7 +195,8 @@ Categories</br>
             <%-- -------- Iteration Code -------- --%>
             <%
                 // Iterate over the ResultSet
-                while (rs.next()) {
+                while (rs.next()) 
+                {
             %>
 
             <tr>
@@ -245,7 +230,7 @@ Categories</br>
 	            	int c = 0;
 	            	try 
 	            	{
-	                // Registering Postgresql JDBC driver with the DriverManager
+	                	// Registering Postgresql JDBC driver with the DriverManager
 	                	Class.forName(DRIVER);
 	                	conn2 = DriverManager.getConnection(CONNECTION_URL,USERNAME,PASSWORD);
 						pstmt2 = conn.prepareStatement("SELECT COUNT(*) as count FROM products where category = ?");
@@ -254,8 +239,8 @@ Categories</br>
                     	rs2 = pstmt2.executeQuery();
                     	while(rs2.next())
                     	{
-                    		System.out.print(rs2.getString("count"));
-                    		c = Integer.parseInt(rs2.getString("count"));
+                    		//System.out.print(rs2.getString("count"));
+                    		c = Integer.parseInt(rs2.getString("count")); // check something in this category or not
                     	}
                     		
                     	if(c == 0)
@@ -274,31 +259,26 @@ Categories</br>
                 
                 
                 <td><input type="submit" value="Delete"/></td>
-                <%}%>
+                <%
+                		}
+                %>
                 </form>
             </tr>
 
             <%
-            if(rs2 != null  && conn2 != null)
-        	{
-            // Close the ResultSet
-            	rs2.close();
+            			if(rs2 != null  && conn2 != null)
+        				{
+            				// Close the ResultSet
+            				rs2.close();
+            				conn2.close();
+        				}
+            		}
+       				catch (SQLException e) 
+	         		{
 
-            // Close the Statement
-            //statement2.close();
-
-            // Close the Connection
-            	conn2.close();
-        	}
-            }
-        	
-	        catch (SQLException e) 
-	         {
-
-            // Wrap the SQL exception in a runtime exception to propagate
-            // it upwards
-            throw new RuntimeException(e);
-        	}
+            			// Wrap the SQL exception in a runtime exception to propagate it upwards
+            			throw new RuntimeException(e);
+        			}
                 }
             %>
 
@@ -327,7 +307,8 @@ Categories</br>
                 
             }
             
-            finally {
+            finally 
+            {
                 // Release resources in a finally block in reverse-order of
                 // their creation
 
@@ -350,14 +331,14 @@ Categories</br>
                     conn = null;
                 }
             }
-}
-}
+		}// else for owners
+	} //else for users
             %>
         </table>
         </td>
     </tr>
 </table>
-
+</br>
 <a href="Home.jsp">Back to home</a>
 </body>
 

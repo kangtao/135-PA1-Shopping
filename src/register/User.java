@@ -1,53 +1,66 @@
 package register;
 
-public class User {
-private String uname,urole,ustate,uage,id;
-//private  uage;
-private boolean valid;
+public class User 
+{
+	private String uname,urole,ustate,uage,id;
 
-public String getUID() {
-	return id;
-}
-public void setUID(String id) {
-	this.id = id;
-}
-public String getUname() {
-	return uname;
-}
+	private boolean valid;
 
-public void setUname(String uname) {
-	this.uname = uname;
-}
+	public String getUID() 
+	{
+		return id;
+	}
+	public void setUID(String id) 
+	{
+		this.id = id;
+	}
+	public String getUname() 
+	{
+		return uname;
+	}
 
-public String getUrole() {
-	return urole;
-}
+	public void setUname(String uname) 
+	{
+		this.uname = uname;
+	}
 
-public void setUrole(String urole) {
-	this.urole = urole;
-}
+	public String getUrole() 
+	{
+		return urole;
+	}
 
-public String getUage() {
-	return uage;
-}
+	public void setUrole(String urole)
+	{
+		this.urole = urole;
+	}
 
-public void setUage(String age) {
-	this.uage = age;
-}
+	public String getUage() 
+	{
+		return uage;
+	}
+	
+	public void setUage(String age) 
+	{
+		this.uage = age;
+	}
 
-public String getUstate() {
-	return ustate;
-}
+	public String getUstate() 
+	{
+		return ustate;
+	}
 
-public void setUstate(String state) {
-	this.ustate = state;
-}
+	public void setUstate(String state)
+	{
+		this.ustate = state;
+	}
 
-public boolean isValid() {
-    return valid;
-}
+	public boolean isValid() 
+	{
+		return valid;
+	}
 
- public void setValid(boolean newValid) {
-    valid = newValid;
-}	
+	public void setValid(boolean newValid) 
+	{
+		valid = newValid;
+	}	
 }

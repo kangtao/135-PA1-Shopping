@@ -2,7 +2,7 @@
 <jsp:useBean id="obj" class="register.User"/>
 
 <jsp:setProperty property="*" name="obj"/>
-
+<title>Process Register</title>
 <%
 int status=RegisterDao.register(obj);
 if(status>0)

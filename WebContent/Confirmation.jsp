@@ -48,7 +48,6 @@ Hello <%=(String)session.getAttribute("currentSessionUserName")%></br>
 
 		   			String productName = innerArrayList.get(0);
 		   			int amount = Integer.parseInt(innerArrayList.get(1));
-		   			System.out.print((innerArrayList.get(3)));
 		  	 		float price = Float.parseFloat(innerArrayList.get(2));
 		  	 		int productID = Integer.parseInt(innerArrayList.get(3));
 		  	 		int userID = Integer.parseInt(innerArrayList.get(4));
